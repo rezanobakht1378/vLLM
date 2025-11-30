@@ -1,0 +1,49 @@
+services:
+  qwen30b:
+    image: vllm/vllm-openai:latest
+    container_name: qwen-30b
+    restart: "no"
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0,1 
+    ports:
+      - "8001:8000"  
+    command: >
+      --model Qwen/Qwen3-30B-A3B
+      --tensor-parallel-size 2
+      --quantization 4bit
+      --flash-attn
+      --gpu-memory-utilization 0.95
+      --max-model-len 8192
+      --port 8000
+    volumes:
+    - ./models:/models
+  # mistral:
+  #   image: vllm/vllm-openai:latest
+  #   container_name: vllm-mistral
+  #   restart: always
+  #   runtime: nvidia
+  #   environment:
+  #     - NVIDIA_VISIBLE_DEVICES=0
+  #   ports:
+  #     - "8000:8000"
+  #   command: >
+  #     --model mistralai/Mistral-7B-Instruct-v0.2
+  #     --tensor-parallel-size 1
+  #     --gpu-memory-utilization 0.95
+
+  # llama:
+  #   image: vllm/vllm-openai:latest
+  #   container_name: vllm-llama
+  #   restart: always
+  #   runtime: nvidia
+  #   environment:
+  #     - NVIDIA_VISIBLE_DEVICES=1
+  #   ports:
+  #     - "8001:8000"
+  #   command: >
+  #     --model /models/llama8b
+  #     --tensor-parallel-size 1
+  #     --gpu-memory-utilization 0.95
+  #   volumes:
+  #     - ./models:/models
