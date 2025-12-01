@@ -9,13 +9,19 @@ services:
     ports:
       - "8001:8000"  
     command: >
-      --model Qwen/Qwen3-30B-A3B
+      serve Qwen/Qwen3-30B-A3B
       --tensor-parallel-size 2
       --quantization 4bit
-      --flash-attn
       --gpu-memory-utilization 0.95
       --max-model-len 8192
       --port 8000
+      # --model Qwen/Qwen3-30B-A3B
+      # --tensor-parallel-size 2
+      # --quantization 4bit
+      # --flash-attn
+      # --gpu-memory-utilization 0.95
+      # --max-model-len 8192
+      # --port 8000
     volumes:
     - ./models:/models
   # mistral:
